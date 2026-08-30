@@ -1,7 +1,11 @@
 package com.etec.tourtripapi.guide.repository;
 
+import com.etec.tourtripapi.guide.entity.Guides;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface repoGuide extends JpaRepository<repoGuide, Integer> {
+import java.util.Optional;
 
+public interface repoGuide extends JpaRepository<Guides, Long> {
+    Optional<Guides> findByFullName(String fullName);
+    Optional<Guides> findByEmail(String email);
 }
