@@ -38,11 +38,29 @@ public class GuideServiceImpl implements GuideService {
 
     @Override
     public Guides update(Long id, Guides guide) {
-       return null;
+        Guides existingGuide = repoGuide.findById(id)
+                .orElseThrow(() -> new RuntimeException("Guide not found with id: " + id));
+
+        if (guide.getFullName() != null) {
+            existingGuide.setFullName(guide.getFullName());
+        }
+        if (guide.getEmail() != null) {
+            existingGuide.setEmail(guide.getEmail());
+        }
+        if (guide.getPhoneNumber() != null) {
+            existingGuide.setPhoneNumber(guide.getPhoneNumber());
+        }
+        if (guide.getGuideUrl() != null) {
+            existingGuide.setGuideUrl(guide.getGuideUrl());
+        }
+
+        return repoGuide.save(existingGuide);
     }
 
     @Override
     public void delete(Long id) {
-        return;
+        Guides existingGuide = repoGuide.findById(id)
+                .orElseThrow(() -> new RuntimeException("Guide not found with id: " + id));
+        repoGuide.delete(existingGuide);
     }
 }

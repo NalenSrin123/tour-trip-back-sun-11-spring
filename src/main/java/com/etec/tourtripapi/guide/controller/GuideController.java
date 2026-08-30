@@ -16,8 +16,8 @@ import java.util.List;
 public class GuideController {
     private final GuideService guideService;
 
-    public GuideController() {
-        guideService = null;
+    public GuideController(GuideService guideService) {
+        this.guideService = guideService;
     }
 
     @GetMapping
