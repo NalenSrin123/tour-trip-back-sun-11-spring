@@ -1,10 +1,24 @@
 package com.etec.tourtripapi.destination.mapper;
 
+import com.etec.tourtripapi.destination.dto.request.DestinationRequest;
 import com.etec.tourtripapi.destination.dto.request.UpdateDestinationRequest;
 import com.etec.tourtripapi.destination.dto.response.DestinationResponse;
 import com.etec.tourtripapi.destination.entity.Destination;
 
 public class DestinationMapper {
+
+    public static Destination toEntity(DestinationRequest request) {
+        if (request == null) {
+            return null;
+        }
+
+        return Destination.builder()
+                .name(request.getName())
+                .city(request.getCity())
+                .country(request.getCountry())
+                .coverImageUrl(request.getCoverImageUrl())
+                .build();
+    }
 
     public static DestinationResponse toResponse(Destination destination) {
         if (destination == null) {
