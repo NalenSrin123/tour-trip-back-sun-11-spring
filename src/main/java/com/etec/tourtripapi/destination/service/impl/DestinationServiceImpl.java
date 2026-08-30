@@ -4,6 +4,7 @@ import com.etec.tourtripapi.common.exception.ResourceNotFoundException;
 import com.etec.tourtripapi.destination.dto.request.UpdateDestinationRequest;
 import com.etec.tourtripapi.destination.dto.response.DestinationResponse;
 import com.etec.tourtripapi.destination.entity.Destination;
+import com.etec.tourtripapi.destination.mapper.DestinationMapper;
 import com.etec.tourtripapi.destination.repository.DestinationRepository;
 import com.etec.tourtripapi.destination.service.DestinationService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class DestinationServiceImpl implements DestinationService {
     public DestinationResponse getDestinationById(Long id) {
         Destination destination = destinationRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Destination", "id", id));
-        return DestinationResponse.fromEntity(destination);
+        return DestinationMapper.toResponse(destination);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class DestinationServiceImpl implements DestinationService {
         }
 
         return destinations.stream()
-                .map(DestinationResponse::fromEntity)
+                .map(DestinationMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
@@ -53,13 +54,10 @@ public class DestinationServiceImpl implements DestinationService {
         Destination destination = destinationRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Destination", "id", id));
 
-        destination.setName(request.getName());
-        destination.setCity(request.getCity());
-        destination.setCountry(request.getCountry());
-        destination.setCoverImageUrl(request.getCoverImageUrl());
+        DestinationMapper.updateEntityFromRequest(destination, request);
 
         Destination updatedDestination = destinationRepository.save(destination);
-        return DestinationResponse.fromEntity(updatedDestination);
+        return DestinationMapper.toResponse(updatedDestination);
     }
 
     @Override

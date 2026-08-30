@@ -1,6 +1,5 @@
 package com.etec.tourtripapi.destination.dto.response;
 
-import com.etec.tourtripapi.destination.entity.Destination;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,17 +20,4 @@ public class DestinationResponse {
     private String coverImageUrl;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    public static DestinationResponse fromEntity(Destination destination) {
-        if (destination == null) return null;
-        return DestinationResponse.builder()
-                .id(destination.getDestinationId())
-                .name(destination.getName())
-                .city(destination.getCity())
-                .country(destination.getCountry())
-                .coverImageUrl(destination.getCoverImageUrl())
-                .createdAt(destination.getCreatedAt())
-                .updatedAt(destination.getUpdatedAt())
-                .build();
-    }
 }
