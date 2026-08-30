@@ -25,7 +25,7 @@ public class DestinationResponse {
     public static DestinationResponse fromEntity(Destination destination) {
         if (destination == null) return null;
         return DestinationResponse.builder()
-                .id(destination.getId())
+                .id(destination.getDestinationId())
                 .name(destination.getName())
                 .city(destination.getCity())
                 .country(destination.getCountry())

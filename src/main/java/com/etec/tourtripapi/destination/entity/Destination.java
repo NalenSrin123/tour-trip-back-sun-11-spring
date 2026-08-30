@@ -9,17 +9,16 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "destinations")
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Destination {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "destination_id")
-    private Long id;
+    private Long destinationId;
 
     @Column(name = "name", nullable = false, length = 150)
     private String name;

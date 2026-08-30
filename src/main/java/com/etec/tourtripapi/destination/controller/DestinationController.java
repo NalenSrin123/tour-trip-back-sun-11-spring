@@ -9,12 +9,46 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/destinations")
 @RequiredArgsConstructor
 public class DestinationController {
 
     private final DestinationService destinationService;
+
+    /**
+     * GET /api/v1/destinations/{id}
+     * Retrieves destination details by ID.
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<DestinationResponse>> getDestinationById(@PathVariable Long id) {
+        DestinationResponse destination = destinationService.getDestinationById(id);
+        ApiResponse<DestinationResponse> response = ApiResponse.success(
+                "Destination retrieved successfully",
+                destination
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * GET /api/v1/destinations
+     * Searches or lists destinations filtered by name, country, or city.
+     */
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<DestinationResponse>>> searchDestinations(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String country,
+            @RequestParam(required = false) String city) {
+
+        List<DestinationResponse> destinations = destinationService.searchDestinations(name, country, city);
+        ApiResponse<List<DestinationResponse>> response = ApiResponse.success(
+                "Destinations retrieved successfully",
+                destinations
+        );
+        return ResponseEntity.ok(response);
+    }
 
     /**
      * PUT /api/v1/destinations/{id}
