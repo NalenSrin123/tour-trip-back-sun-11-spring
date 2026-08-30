@@ -1,12 +1,15 @@
 package com.etec.tourtripapi.destination.service.impl;
 
 import com.etec.tourtripapi.common.exception.ResourceNotFoundException;
+import com.etec.tourtripapi.destination.dto.request.DestinationRequest;
 import com.etec.tourtripapi.destination.dto.request.UpdateDestinationRequest;
 import com.etec.tourtripapi.destination.dto.response.DestinationResponse;
 import com.etec.tourtripapi.destination.entity.Destination;
 import com.etec.tourtripapi.destination.repository.DestinationRepository;
 import com.etec.tourtripapi.destination.service.DestinationService;
+import com.etec.tourtripapi.destination.specification.DestinationSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,21 +33,41 @@ public class DestinationServiceImpl implements DestinationService {
     @Override
     @Transactional(readOnly = true)
     public List<DestinationResponse> searchDestinations(String name, String country, String city) {
-        List<Destination> destinations;
+        Specification<Destination> specification = null;
 
-        if (name != null && !name.trim().isEmpty()) {
-            destinations = destinationRepository.findByNameContainingIgnoreCase(name.trim());
-        } else if (country != null && !country.trim().isEmpty()) {
-            destinations = destinationRepository.findByCountryIgnoreCase(country.trim());
-        } else if (city != null && !city.trim().isEmpty()) {
-            destinations = destinationRepository.findByCityIgnoreCase(city.trim());
-        } else {
-            destinations = destinationRepository.findAll();
+        if (hasText(name)) {
+            specification = addSpecification(specification, DestinationSpecification.nameContains(name.trim()));
         }
+
+        if (hasText(country)) {
+            specification = addSpecification(specification, DestinationSpecification.countryEquals(country.trim()));
+        }
+
+        if (hasText(city)) {
+            specification = addSpecification(specification, DestinationSpecification.cityEquals(city.trim()));
+        }
+
+        List<Destination> destinations = specification == null
+                ? destinationRepository.findAll()
+                : destinationRepository.findAll(specification);
 
         return destinations.stream()
                 .map(DestinationResponse::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public DestinationResponse createDestination(DestinationRequest request) {
+        Destination destination = Destination.builder()
+                .name(request.getName())
+                .city(request.getCity())
+                .country(request.getCountry())
+                .coverImageUrl(request.getCoverImageUrl())
+                .build();
+
+        Destination savedDestination = destinationRepository.save(destination);
+        return DestinationResponse.fromEntity(savedDestination);
     }
 
     @Override
@@ -69,5 +92,16 @@ public class DestinationServiceImpl implements DestinationService {
                 .orElseThrow(() -> new ResourceNotFoundException("Destination", "id", id));
 
         destinationRepository.delete(destination);
+    }
+
+    private boolean hasText(String value) {
+        return value != null && !value.trim().isEmpty();
+    }
+
+    private Specification<Destination> addSpecification(
+            Specification<Destination> specification,
+            Specification<Destination> newSpecification) {
+
+        return specification == null ? newSpecification : specification.and(newSpecification);
     }
 }

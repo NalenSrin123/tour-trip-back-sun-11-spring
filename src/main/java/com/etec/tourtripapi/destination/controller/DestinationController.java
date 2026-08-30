@@ -1,6 +1,7 @@
 package com.etec.tourtripapi.destination.controller;
 
 import com.etec.tourtripapi.common.response.ApiResponse;
+import com.etec.tourtripapi.destination.dto.request.DestinationRequest;
 import com.etec.tourtripapi.destination.dto.request.UpdateDestinationRequest;
 import com.etec.tourtripapi.destination.dto.response.DestinationResponse;
 import com.etec.tourtripapi.destination.service.DestinationService;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/destinations")
+    @RequestMapping("/api/v1/destinations")
 @RequiredArgsConstructor
 public class DestinationController {
 
@@ -46,6 +47,22 @@ public class DestinationController {
         ApiResponse<List<DestinationResponse>> response = ApiResponse.success(
                 "Destinations retrieved successfully",
                 destinations
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * POST /api/v1/destinations
+     * Creates a new destination.
+     */
+    @PostMapping
+    public ResponseEntity<ApiResponse<DestinationResponse>> createDestination(
+            @Valid @RequestBody DestinationRequest request) {
+
+        DestinationResponse destination = destinationService.createDestination(request);
+        ApiResponse<DestinationResponse> response = ApiResponse.success(
+                "Destination created successfully",
+                destination
         );
         return ResponseEntity.ok(response);
     }

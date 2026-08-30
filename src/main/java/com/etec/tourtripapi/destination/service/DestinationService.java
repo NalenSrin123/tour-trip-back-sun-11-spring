@@ -1,5 +1,6 @@
 package com.etec.tourtripapi.destination.service;
 
+import com.etec.tourtripapi.destination.dto.request.DestinationRequest;
 import com.etec.tourtripapi.destination.dto.request.UpdateDestinationRequest;
 import com.etec.tourtripapi.destination.dto.response.DestinationResponse;
 
@@ -16,6 +17,11 @@ public interface DestinationService {
      * Searches or retrieves destinations filtered by name, country, or city.
      */
     List<DestinationResponse> searchDestinations(String name, String country, String city);
+
+    /**
+     * Creates a new destination.
+     */
+    DestinationResponse createDestination(DestinationRequest request);
 
     /**
      * Updates an existing destination by ID.
