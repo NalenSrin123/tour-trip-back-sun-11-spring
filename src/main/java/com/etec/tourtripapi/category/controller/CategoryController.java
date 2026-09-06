@@ -1,15 +1,17 @@
 package com.etec.tourtripapi.category.controller;
 
-import com.etec.tourtripapi.category.entity.Category;
+import com.etec.tourtripapi.category.dto.request.CategoryRequest;
+import com.etec.tourtripapi.category.dto.response.CategoryResponse;
 import com.etec.tourtripapi.category.service.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashMap;
-import java.util.Map;
-import org.springframework.http.HttpStatus;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1/categories")
 
@@ -21,31 +23,41 @@ public class CategoryController {
 
     // 1. Get All Categories
     @GetMapping
-    public ResponseEntity<List<Category>> getAllCategories() {
-        List<Category> categories = categoryService.getAllCategories();
+    public ResponseEntity<List<CategoryResponse>> getAllCategories() {
+        List<CategoryResponse> categories = categoryService.getAllCategories();
         return ResponseEntity.ok(categories);
     }
 
     // 2. Search Categories by Name Endpoint
     @GetMapping("/namesearch")
-    public ResponseEntity<List<Category>> searchCategoriesByName(@RequestParam("name") String name) {
-        List<Category> categories = categoryService.searchCategoriesByName(name);
+    public ResponseEntity<List<CategoryResponse>> searchCategoriesByName(@RequestParam("name") String name) {
+        List<CategoryResponse> categories = categoryService.searchCategoriesByName(name);
         return ResponseEntity.ok(categories);
     }
 
+    // 3. Get Category by ID Endpoint
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable Long id) {
+        try {
+            CategoryResponse category = categoryService.getCategoryById(id);
+            return ResponseEntity.ok(category);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     // 4. Create Category
     @PostMapping
-    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
-        Category savedCategory = categoryService.createCategory(category);
+    public ResponseEntity<CategoryResponse> createCategory(@Valid @RequestBody CategoryRequest category) {
+        CategoryResponse savedCategory = categoryService.createCategory(category);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCategory);
     }
 
     // 5. Update Category
     @PutMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category categoryDetails) {
+    public ResponseEntity<CategoryResponse> updateCategory(@PathVariable Long id, @Valid @RequestBody CategoryRequest categoryDetails) {
         try {
-            Category updatedCategory = categoryService.updateCategory(id, categoryDetails);
+            CategoryResponse updatedCategory = categoryService.updateCategory(id, categoryDetails);
             return ResponseEntity.ok(updatedCategory);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
