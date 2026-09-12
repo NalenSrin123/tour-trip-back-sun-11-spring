@@ -32,5 +32,7 @@ build/
 ### VS Code ###
 .vscode/
 
-# Local Documentation
+# Local Documentation & Notes
 FolderStructure.md
+notes/
+note/
