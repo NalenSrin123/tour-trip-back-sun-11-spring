@@ -1,15 +1,23 @@
 package com.etec.tourtripapi.guide.controller;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.etec.tourtripapi.guide.dto.request.GuideRequest;
 import com.etec.tourtripapi.guide.dto.response.GuideResponse;
 import com.etec.tourtripapi.guide.entity.Guides;
 import com.etec.tourtripapi.guide.mapper.GuideMapper;
 import com.etec.tourtripapi.guide.service.GuideService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/guides")
@@ -26,6 +34,27 @@ public class GuideController {
                 .map(GuideMapper::toResponse)
                 .toList();
         return ResponseEntity.ok(guides);
+    }
+
+    @GetMapping("/fullname/{fullName}")
+    public ResponseEntity<GuideResponse> getByFullName(@PathVariable String fullName)
+    {
+        Guides guide = guideService.getByFullName(fullName);
+        if (guide != null) {
+            return ResponseEntity.ok(GuideMapper.toResponse(guide));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<GuideResponse> getByEmail(@PathVariable String email) {
+        Guides guide = guideService.getByEmail(email);
+        if (guide != null) {
+            return ResponseEntity.ok(GuideMapper.toResponse(guide));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
