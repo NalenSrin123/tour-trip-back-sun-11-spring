@@ -20,7 +20,7 @@ import com.etec.tourtripapi.guide.mapper.GuideMapper;
 import com.etec.tourtripapi.guide.service.GuideService;
 
 @RestController
-@RequestMapping("/api/guides")
+@RequestMapping("/api/v1/guides")
 public class GuideController {
     private final GuideService guideService;
 
