@@ -15,7 +15,7 @@ import com.etec.tourtripapi.auth.service.RegisterService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping({"/api/v1/auth", "/api/v2/auth", "/api/auth"})
 public class RegisterController {
 	private final RegisterService registerService;
 
