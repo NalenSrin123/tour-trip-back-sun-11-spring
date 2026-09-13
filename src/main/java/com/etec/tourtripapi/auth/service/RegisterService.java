@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.etec.tourtripapi.auth.dto.request.RegisterRequest;
 import com.etec.tourtripapi.auth.dto.response.RegisterResponse;
 import com.etec.tourtripapi.auth.entity.PasswordResetToken;
-import com.etec.tourtripapi.auth.entity.User;
+import com.etec.tourtripapi.user.entity.User;
 import com.etec.tourtripapi.auth.mapper.RegisterMapper;
 import com.etec.tourtripapi.auth.repository.PasswordResetTokenRepository;
 import com.etec.tourtripapi.auth.repository.RegisterRepository;

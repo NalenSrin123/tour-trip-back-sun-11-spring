@@ -2,7 +2,7 @@ package com.etec.tourtripapi.auth.specification;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.etec.tourtripapi.auth.entity.User;
+import com.etec.tourtripapi.user.entity.User;
 
 public final class RegisterSpecifition {
 	private RegisterSpecifition() {
