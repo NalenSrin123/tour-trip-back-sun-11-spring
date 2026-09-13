@@ -15,7 +15,7 @@ import com.etec.tourtripapi.auth.dto.response.RegisterResponse;
 import com.etec.tourtripapi.auth.service.RegisterService;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping({"/api/v1/auth", "/api/v2/auth", "/api/auth"})
 public class RegisterController {
 	private final RegisterService registerService;
 
