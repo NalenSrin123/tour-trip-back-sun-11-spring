@@ -22,6 +22,14 @@ public class User {
     @Column(name = "user_id")
     private Long userId;
 
+    public Long getId() {
+        return userId;
+    }
+
+    public void setId(Long id) {
+        this.userId = id;
+    }
+
     @Column(name = "full_name", nullable = false, length = 150)
     private String fullName;
 

@@ -2,7 +2,7 @@ package com.etec.tourtripapi.auth.mapper;
 
 import com.etec.tourtripapi.auth.dto.request.RegisterRequest;
 import com.etec.tourtripapi.auth.dto.response.RegisterResponse;
-import com.etec.tourtripapi.auth.entity.User;
+import com.etec.tourtripapi.user.entity.User;
 
 public class RegisterMapper {
 	private RegisterMapper() {

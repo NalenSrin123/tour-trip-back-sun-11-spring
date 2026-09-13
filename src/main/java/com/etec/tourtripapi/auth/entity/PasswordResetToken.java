@@ -1,5 +1,7 @@
 package com.etec.tourtripapi.auth.entity;
 
+import com.etec.tourtripapi.user.entity.User;
+
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
