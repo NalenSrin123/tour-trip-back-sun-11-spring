@@ -1,7 +1,5 @@
 package com.etec.tourtripapi.auth.controller;
 
-import jakarta.validation.Valid;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +12,10 @@ import com.etec.tourtripapi.auth.dto.request.RegisterRequest;
 import com.etec.tourtripapi.auth.dto.response.RegisterResponse;
 import com.etec.tourtripapi.auth.service.RegisterService;
 
+import jakarta.validation.Valid;
+
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
 public class RegisterController {
 	private final RegisterService registerService;
 
