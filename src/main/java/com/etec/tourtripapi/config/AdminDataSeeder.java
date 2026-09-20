@@ -22,6 +22,9 @@ public class AdminDataSeeder implements CommandLineRunner {
         log.info(">>> [DataSeeder] Initializing default system users...");
 
         // 1. Seed Admin Accounts
+        seedAdminUser("Super Admin", "thoeungsereymongkol@gmail.com", "123");
+        seedAdminUser("Admin Heng", "hengheng513.513@gmail.com", "123");
+        seedAdminUser("Admin Rithy", "rithyysak7777@gmail.com", "123");
         seedAdminUser("System Admin", "kimlizaset9@gmail.com", "123");
         seedAdminUser("Super Admin", "admin@gmail.com", "123");
 

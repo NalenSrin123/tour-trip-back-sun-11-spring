@@ -113,6 +113,11 @@ public class AuthServiceImpl implements AuthService {
                 .build();
     }
 
+    @Override
+    public void logout() {
+        org.springframework.security.core.context.SecurityContextHolder.clearContext();
+    }
+
     private UserDto toUserDto(User user) {
         return UserDto.builder()
                 .userId(user.getUserId())

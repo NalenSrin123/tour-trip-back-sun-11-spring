@@ -38,4 +38,12 @@ public class AuthController {
         AuthResponse response = authService.verifyOtp(request);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Map<String, String>> logout() {
+        authService.logout();
+        return ResponseEntity.ok(Map.of(
+                "message", "Logout successful"
+        ));
+    }
 }

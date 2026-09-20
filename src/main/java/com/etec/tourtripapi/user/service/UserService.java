@@ -3,6 +3,7 @@ package com.etec.tourtripapi.user.service;
 import com.etec.tourtripapi.user.dto.request.CreateUserRequest;
 import com.etec.tourtripapi.user.dto.request.UpdateAdminUserRequest;
 import com.etec.tourtripapi.user.dto.request.UpdateCustomerRequest;
+import com.etec.tourtripapi.user.dto.request.UpdateProfileRequest;
 import com.etec.tourtripapi.user.dto.response.CustomerResponse;
 import com.etec.tourtripapi.user.dto.response.UserResponse;
 
@@ -20,6 +21,11 @@ public interface UserService {
     UserResponse updateAdminUser(Long id, UpdateAdminUserRequest request);
 
     List<UserResponse> getUsersByRole(String role);
+
+    // Profile operations
+    UserResponse getProfile(String email);
+
+    UserResponse updateProfile(String email, UpdateProfileRequest request);
 
     // Customer management operations
     CustomerResponse getCustomerById(Long id);

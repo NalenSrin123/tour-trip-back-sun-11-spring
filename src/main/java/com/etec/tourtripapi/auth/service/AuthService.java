@@ -9,4 +9,5 @@ public interface AuthService {
     AuthResponse login(LoginRequest request);
     String sendOtp(SendOtpRequest request);
     AuthResponse verifyOtp(VerifyOtpRequest request);
+    void logout();
 }

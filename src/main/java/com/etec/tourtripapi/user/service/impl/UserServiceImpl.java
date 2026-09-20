@@ -5,6 +5,7 @@ import com.etec.tourtripapi.common.exception.ResourceNotFoundException;
 import com.etec.tourtripapi.user.dto.request.CreateUserRequest;
 import com.etec.tourtripapi.user.dto.request.UpdateAdminUserRequest;
 import com.etec.tourtripapi.user.dto.request.UpdateCustomerRequest;
+import com.etec.tourtripapi.user.dto.request.UpdateProfileRequest;
 import com.etec.tourtripapi.user.dto.response.CustomerResponse;
 import com.etec.tourtripapi.user.dto.response.UserResponse;
 import com.etec.tourtripapi.user.entity.User;
@@ -117,6 +118,39 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public List<UserResponse> getUsersByRole(String role) {
         return searchAdminUsers(null, null, null, role);
+    }
+
+    // ==========================================
+    // Profile Operations
+    // ==========================================
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserResponse getProfile(String email) {
+        User user = userRepository.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
+        return UserMapper.toResponse(user);
+    }
+
+    @Override
+    @Transactional
+    public UserResponse updateProfile(String email, UpdateProfileRequest request) {
+        User user = userRepository.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
+
+        user.setFullName(request.getFullName().trim());
+        if (request.getUserProfile() != null) {
+            user.setUserProfile(request.getUserProfile().trim());
+        }
+        if (request.getAvatarUrl() != null) {
+            user.setAvatarUrl(request.getAvatarUrl().trim());
+        }
+        if (hasText(request.getPassword())) {
+            user.setPasswordHash(passwordEncoder.encode(request.getPassword().trim()));
+        }
+
+        User savedUser = userRepository.save(user);
+        return UserMapper.toResponse(savedUser);
     }
 
     // ==========================================

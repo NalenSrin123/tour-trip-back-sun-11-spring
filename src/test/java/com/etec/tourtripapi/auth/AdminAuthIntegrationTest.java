@@ -5,7 +5,6 @@ import com.etec.tourtripapi.auth.dto.SendOtpRequest;
 import com.etec.tourtripapi.auth.dto.VerifyOtpRequest;
 import com.etec.tourtripapi.auth.entity.Otp;
 import com.etec.tourtripapi.auth.repository.OtpRepository;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -48,7 +46,7 @@ class AdminAuthIntegrationTest {
         // Step 1: Admin attempts to login
         LoginRequest loginRequest = new LoginRequest("admin@gmail.com", "Password123!");
 
-        MvcResult loginResult = mockMvc.perform(post("/api/v1/auth/login")
+        mockMvc.perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginRequest)))
                 .andDo(print())
@@ -144,5 +142,14 @@ class AdminAuthIntegrationTest {
                 .andExpect(jsonPath("$.token").isNotEmpty())
                 .andExpect(jsonPath("$.role").value("CUSTOMER"))
                 .andExpect(jsonPath("$.user.email").value("customer@example.com"));
+    }
+
+    @Test
+    @DisplayName("Admin Logout: should clear context and return success message")
+    void logout_success() throws Exception {
+        mockMvc.perform(post("/api/v1/auth/logout"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("Logout successful"));
     }
 }
