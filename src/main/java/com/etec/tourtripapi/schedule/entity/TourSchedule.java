@@ -2,6 +2,7 @@ package com.etec.tourtripapi.schedule.entity;
 
 import com.etec.tourtripapi.common.entity.BaseEntity;
 import com.etec.tourtripapi.guide.entity.Guides;
+import com.etec.tourtripapi.tour.entity.Tour;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,9 +22,13 @@ public class TourSchedule extends BaseEntity {
     @Column(name = "schedule_id")
     private Long scheduleId;
 
-    // TODO: convert to @ManyToOne once Tour entity exists.
-    @Column(name = "tour_id", nullable = false)
-    private Long tourId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tour_id", nullable = false)
+    private Tour tour;
+
+    public Long getTourId() {
+        return tour != null ? tour.getTourId() : null;
+    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guide_id")
