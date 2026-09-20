@@ -3,6 +3,7 @@ package com.etec.tourtripapi.auth.service.Impl;
 import com.etec.tourtripapi.auth.entity.Otp;
 import com.etec.tourtripapi.auth.repository.OtpRepository;
 import com.etec.tourtripapi.auth.service.OtpService;
+import com.etec.tourtripapi.common.exception.BadRequestException;
 import com.etec.tourtripapi.notification.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,14 +64,14 @@ public class OtpServiceImpl implements OtpService {
     public boolean verifyOtp(String recipient, String otpCode, String purpose) {
         Otp otp = otpRepository
                 .findTopByRecipientAndPurposeAndIsVerifiedFalseOrderByCreatedAtDesc(recipient, purpose)
-                .orElseThrow(() -> new RuntimeException("No active OTP request found for: " + recipient));
+                .orElseThrow(() -> new BadRequestException("No active OTP request found for: " + recipient));
 
         if (otp.getExpiryTime().isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("OTP has expired. Please request a new one.");
+            throw new BadRequestException("OTP has expired. Please request a new one.");
         }
 
         if (!otp.getOtpCode().equals(otpCode.trim())) {
-            throw new RuntimeException("Invalid OTP code. Please check and try again.");
+            throw new BadRequestException("Invalid OTP code. Please check and try again.");
         }
 
         otp.setIsVerified(true);

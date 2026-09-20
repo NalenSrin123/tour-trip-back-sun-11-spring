@@ -5,6 +5,7 @@ import com.etec.tourtripapi.security.userdetails.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -43,6 +44,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v2/auth/**", "/api/v1/auth/**", "/api/auth/**").permitAll()
                         .requestMatchers("/api/v1/guides/**", "/api/guides/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/tours/**", "/api/v1/schedules/**", "/api/v1/categories/**", "/api/v1/destinations/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
