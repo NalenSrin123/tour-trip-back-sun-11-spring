@@ -12,7 +12,8 @@ import java.util.List;
 @Repository
 public interface TourScheduleRepository extends JpaRepository<TourSchedule, Long> {
 
-    List<TourSchedule> findByTourId(Long tourId);
+    @Query("SELECT s FROM TourSchedule s WHERE s.tour.tourId = :tourId")
+    List<TourSchedule> findByTourId(@Param("tourId") Long tourId);
 
     @Query("SELECT s FROM TourSchedule s WHERE s.guide.id = :guideId")
     List<TourSchedule> findByGuideId(@Param("guideId") Long guideId);

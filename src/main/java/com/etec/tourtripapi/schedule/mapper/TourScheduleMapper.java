@@ -29,6 +29,7 @@ public class TourScheduleMapper implements BaseMapper<TourSchedule, TourSchedule
         return TourScheduleResponse.builder()
                 .scheduleId(entity.getScheduleId())
                 .tourId(entity.getTourId())
+                .tourTitle(entity.getTour() != null ? entity.getTour().getTitle() : null)
                 .guideId(entity.getGuide() != null ? entity.getGuide().getId() : null)
                 .guideName(entity.getGuide() != null ? entity.getGuide().getFullName() : null)
                 .departureDate(entity.getDepartureDate())
@@ -46,7 +47,6 @@ public class TourScheduleMapper implements BaseMapper<TourSchedule, TourSchedule
             return;
         }
 
-        entity.setTourId(request.getTourId());
         entity.setDepartureDate(request.getDepartureDate());
         entity.setReturnDate(request.getReturnDate());
         entity.setMaxCapacity(request.getMaxCapacity());

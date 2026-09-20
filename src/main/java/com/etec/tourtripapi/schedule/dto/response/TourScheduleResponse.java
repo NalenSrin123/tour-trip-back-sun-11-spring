@@ -18,6 +18,7 @@ public class TourScheduleResponse extends BaseResponse {
 
     private Long scheduleId;
     private Long tourId;
+    private String tourTitle;
     private Long guideId;
     private String guideName;
     private LocalDateTime departureDate;

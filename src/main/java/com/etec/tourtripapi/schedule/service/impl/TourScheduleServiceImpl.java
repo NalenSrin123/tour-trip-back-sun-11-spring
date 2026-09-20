@@ -11,6 +11,8 @@ import com.etec.tourtripapi.schedule.exception.ScheduleValidationException;
 import com.etec.tourtripapi.schedule.mapper.TourScheduleMapper;
 import com.etec.tourtripapi.schedule.repository.TourScheduleRepository;
 import com.etec.tourtripapi.schedule.service.TourScheduleService;
+import com.etec.tourtripapi.tour.entity.Tour;
+import com.etec.tourtripapi.tour.repository.TourRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ public class TourScheduleServiceImpl implements TourScheduleService {
     private final TourScheduleRepository tourScheduleRepository;
     private final TourScheduleMapper tourScheduleMapper;
     private final repoGuide repoGuide;
+    private final TourRepository tourRepository;
 
     @Override
     @Transactional
@@ -33,7 +36,11 @@ public class TourScheduleServiceImpl implements TourScheduleService {
         validateScheduleDates(request.getDepartureDate(), request.getReturnDate(), true);
         validateCapacityAndSlots(request, true);
 
+        Tour tour = tourRepository.findById(request.getTourId())
+                .orElseThrow(() -> new ResourceNotFoundException("Tour", "id", request.getTourId()));
+
         TourSchedule schedule = tourScheduleMapper.toEntity(request);
+        schedule.setTour(tour);
 
         if (request.getGuideId() != null) {
             Guides guide = repoGuide.findById(request.getGuideId())
@@ -85,6 +92,12 @@ public class TourScheduleServiceImpl implements TourScheduleService {
         validateCapacityAndSlots(request, false);
 
         tourScheduleMapper.updateEntity(existingSchedule, request);
+
+        if (request.getTourId() != null) {
+            Tour tour = tourRepository.findById(request.getTourId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Tour", "id", request.getTourId()));
+            existingSchedule.setTour(tour);
+        }
 
         if (request.getGuideId() != null) {
             Guides guide = repoGuide.findById(request.getGuideId())
