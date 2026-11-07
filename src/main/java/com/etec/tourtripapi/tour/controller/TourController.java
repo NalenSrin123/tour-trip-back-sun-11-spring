@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/tours")
+@RequestMapping("/api/v1/tours")fghjkl;
 @RequiredArgsConstructor
 public class TourController {
 

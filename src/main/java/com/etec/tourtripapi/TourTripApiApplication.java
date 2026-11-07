@@ -9,5 +9,7 @@ public class TourTripApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TourTripApiApplication.class, args);
 	}
-
+	public static void main(String[] args) {
+		SpringApplication.run(TourTripApiApplication.class, args);
+	}
 }

@@ -123,4 +123,9 @@ public class ReviewController {
         reviewService.deleteReview(id);
         return ResponseEntity.ok(ApiResponse.success("Review deleted successfully"));
     }
+     @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<Void>> deleteReview(@PathVariable Long id) {
+        reviewService.deleteReview(id);
+        return ResponseEntity.ok(ApiResponse.success("Review deleted successfully"));
+    }
 }

@@ -33,4 +33,9 @@ public class RegisterController {
 		registerService.sendForgotPasswordEmail(request.email());
 		return ResponseEntity.noContent().build();
 	}
+	@PostMapping("/forgot-password")
+	public ResponseEntity<Void> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
+		registerService.sendForgotPasswordEmail(request.email());
+		return ResponseEntity.noContent().build();
+	}
 }
