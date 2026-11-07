@@ -54,7 +54,7 @@ class ReviewServiceTest {
 
         when(userRepository.existsById(1L)).thenReturn(true);
         when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
-
+aswedfvg
         Review savedReview = Review.builder()
                 .reviewId(10L)
                 .userId(1L)
@@ -96,7 +96,7 @@ class ReviewServiceTest {
         assertEquals(1L, response.getReviewId());
         assertEquals(4, response.getRating());
         assertEquals("APPROVED", response.getStatus());
-    }
+    }edfvg
 
     @Test
     void getReviewById_NotFound() {
@@ -126,7 +126,7 @@ class ReviewServiceTest {
         when(reviewRepository.calculateAverageRatingForApproved(5L)).thenReturn(4.5);
 
         TourReviewSummaryResponse summary = reviewService.getTourReviewSummary(5L);
-
+dfcvb
         assertNotNull(summary);
         assertEquals(5L, summary.getTourId());
         assertEquals(4.5, summary.getAverageRating());
@@ -192,3 +192,4 @@ class ReviewServiceTest {
         verify(reviewRepository).delete(existing);
     }
 }
+sdcfvgb
