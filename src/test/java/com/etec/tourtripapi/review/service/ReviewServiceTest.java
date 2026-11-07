@@ -50,7 +50,7 @@ class ReviewServiceTest {
                 .userId(1L)
                 .fullName("John Doe")
                 .email("john@example.com")
-                .build();
+                .build();dfghjkl;''
 
         when(userRepository.existsById(1L)).thenReturn(true);
         when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
