@@ -128,4 +128,11 @@ public class TourController {
         TourResponse response = tourService.setPrimaryImage(id, imageId);
         return ResponseEntity.ok(ApiResponse.success("Primary image updated successfully", response));
     }
+    @PatchMapping("/{id}/images/{imageId}/primary")
+    public ResponseEntity<ApiResponse<TourResponse>> setPrimaryImage(
+            @PathVariable Long id,
+            @PathVariable Long imageId) {
+        TourResponse response = tourService.setPrimaryImage(id, imageId);
+        return ResponseEntity.ok(ApiResponse.success("Primary image updated successfully", response));
+    }
 }
